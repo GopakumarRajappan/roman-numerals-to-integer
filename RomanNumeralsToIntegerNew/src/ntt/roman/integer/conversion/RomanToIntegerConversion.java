@@ -116,6 +116,10 @@ public class RomanToIntegerConversion {
 					integerEquivalent = integerEquivalent - temp1 + temp2;
 				}
 			}
+			
+			if (integerEquivalent <1 || integerEquivalent > 5000) {
+				throw new Exception();
+			}
 			System.out.println("Integer Rerepsentation of the Roman numeral is: " +integerEquivalent );
 		}
 		
