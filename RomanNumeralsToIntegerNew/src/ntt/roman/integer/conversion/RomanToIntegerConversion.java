@@ -54,74 +54,28 @@ public class RomanToIntegerConversion {
 		/**
 		 * Validating user input for invalid characters for Roman letters.
 		 */
-		boolean validValueCheck = false;		
-		for (int iterator=0; iterator < userRomanInput.length(); iterator++) {
-			for (Map.Entry<String,Integer> romanIntegerMapEntry : romanIntegerMap.entrySet()) {
-				if (userRomanInput.charAt(iterator) == romanIntegerMapEntry.getKey().charAt(0)) {
-					validValueCheck = true;
-					break;
-				}else {
-					validValueCheck = false;
-				}
-			}
-			if (validValueCheck == false) {
-				throw new Exception();	
-			}
+			
+		boolean validValueCheck = RomanToIntegerConversionHelper.validateRomanNumeric(userRomanInput, romanIntegerMap);
+		if (validValueCheck == false) {
+			throw new Exception();	
 		}
 		
 		/**
-		 * Valid user input received.
+		 * User input validated for invalid characters. Convert to Integer 
 		 */
-		int integerEquivalent = 0;
-
-		if (userRomanInput.length() == 1) {
-			for (Map.Entry<String,Integer> romanIntegerMapEntry : romanIntegerMap.entrySet()) {
-				if (userRomanInput.charAt(0) == romanIntegerMapEntry.getKey().charAt(0)) {
-					System.out.println("Integer Rerepsentation of the Roman numeral is: " + romanIntegerMapEntry.getValue());
-					break;
-				}
-			}
-		}else if ((userRomanInput.length() > 1)) {
-			String charAtFirstIndex = Character.toString(userRomanInput.charAt(0));
-			integerEquivalent = romanIntegerMap.get(charAtFirstIndex);
-			
-			int temp1 = 0, temp2 =0;
-			for (int iterator=1; iterator <= userRomanInput.length()-1; iterator+=2) {
-				
-				String charAtIterator = Character.toString(userRomanInput.charAt(iterator));
-				
-				if ((userRomanInput.length() % 2 == 0 ) && (iterator != userRomanInput.length()-1)) {
-					String charAtIterator2 = Character.toString(userRomanInput.charAt(iterator+1));
-					temp2 = romanIntegerMap.get(charAtIterator2);
-				}
-				else if ((userRomanInput.length() % 2 == 0 ) && (iterator == userRomanInput.length()-1)){
-					temp2 = 0;
-					temp1 = romanIntegerMap.get(charAtIterator);
-					integerEquivalent = integerEquivalent + temp2 + temp1;
-					break;
-				}
-				if ((userRomanInput.length() % 2 != 0 ) && (iterator != userRomanInput.length()-1)) {
-					String charAtIterator2 = Character.toString(userRomanInput.charAt(iterator+1));
-					temp2 = romanIntegerMap.get(charAtIterator2);
-				}
-				
-				temp1 = romanIntegerMap.get(charAtIterator);
-
-				if (temp2 <= temp1 && temp2 !=0) {
-					
-					integerEquivalent = integerEquivalent + temp1 + temp2;
-				}
-				else {
-
-					integerEquivalent = integerEquivalent - temp1 + temp2;
-				}
-			}
-			
-			if (integerEquivalent <1 || integerEquivalent > 5000) {
+		int integerEquivalent = 0;	
+		integerEquivalent = RomanToIntegerConversionHelper.convertRomanToNumeric(userRomanInput, romanIntegerMap);
+		
+		/**
+		 * Check the range of the converted number. 
+		 */
+		boolean validRangeCheck = RomanToIntegerConversionHelper.rangeCheck(integerEquivalent);
+			if (validRangeCheck == false) {
 				throw new Exception();
 			}
-			System.out.println("Integer Rerepsentation of the Roman numeral is: " +integerEquivalent );
-		}
+			else {
+				System.out.println("Integer Rerepsentation of the Roman numeral is: " +integerEquivalent );
+			}
 		
 		}catch (Exception exception) {
 			System.out.println("Please provide a valid Roman literal. " +
